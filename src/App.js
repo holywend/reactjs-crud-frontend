@@ -1,14 +1,19 @@
 // import logo from './logo.svg';
-import React, { useState, useEffect } from 'react';
-import LoginForm from './Components/LoginForm';
-import Dashboard from './Components/Dashboard';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // or your preferred styling CSS
+
+import LoginForm from "./Components/LoginForm";
+import Layout from "./Components/Layout";
+import Public from "./Components/Public";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Replace with auth state logic
 
   useEffect(() => {
     // Check for existing authentication on app load (optional)
-    const storedToken = localStorage.getItem('authToken'); // Replace with storage mechanism
+    const storedToken = localStorage.getItem("authToken"); // Replace with storage mechanism
     if (storedToken) {
       setIsLoggedIn(true);
     }
@@ -20,33 +25,19 @@ function App() {
   };
 
   return (
-    <div className="container mx-auto">
-      {isLoggedIn ? <Dashboard /> : <LoginForm onLogin={handleLogin} />}
-    </div>
+    <BrowserRouter>
+      <ToastContainer />
+
+      <Routes>  {/* Use Routes instead of Switch for nested routes */}
+        <Route path="/" element={<Public />} />  {/* Always render Layout */}
+        <Route path="admin" element={isLoggedIn ? <Layout /> : <LoginForm onLogin={handleLogin} />} />
+        <Route path="admin/dashboard" element={isLoggedIn ? <Layout /> : <LoginForm onLogin={handleLogin} />} />
+        <Route path="admin/employees" element={isLoggedIn ? <Layout /> : <LoginForm onLogin={handleLogin} />} />
+        {/* </Route> */}
+        {/* Add other routes here if needed */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

@@ -29,7 +29,7 @@ const LoginForm = () => {
       }
 
       // Redirect to the dashboard or other authenticated route
-      window.location.href = '/dashboard'; // Replace with your dashboard route
+      window.location.href = '/admin/dashboard'; // Replace with your dashboard route
  
       // Handle successful login (e.g., redirect to dashboard)
     } catch (error) {
